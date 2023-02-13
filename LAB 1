@@ -1,0 +1,251 @@
+--CÂU 1--
+<!DOCTYPE html>
+<html>
+<head>
+<style>   
+</style>   
+</head>
+<body>
+<form method="post">
+<h2>CHÀO THEO GIỜ</h2
+<input type="Number" name="txtGio">
+<br>
+<?php
+    if (isset($_POST['txtGio']))
+    {
+        $gio = $_POST["txtGio"];
+        
+        if ($gio <12 )
+             $chao = "chào buổi sáng";
+        else if ($gio <17)
+            $chao = "chào buổi chiều";
+        else 
+             $chao = "Chào buổi tối";
+        echo $chao;
+    }
+?>
+<br>
+<button type="submit">CHÀO</button>
+</form>
+
+</body>
+</html>
+--CÂU 2--
+<!DOCTYPE HTML>  
+<html>
+<head>
+<style>
+.error {color: #FF0000;}
+</style>
+</head>
+<body>  
+
+<?php
+$nameErr = $emailErr = "";
+$name = $email = $comment = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  if (empty($_POST["name"])) {
+    $nameErr = "Name is required";
+  } else {
+    $name = test_input($_POST["name"]);
+    if (!preg_match("/^[a-zA-Z-' ]*$/",$name)) {
+      $nameErr = "Only letters and white space allowed";
+    }
+  }
+  
+  if (empty($_POST["email"])) {
+    $emailErr = "Email is required";
+  } else {
+    $email = test_input($_POST["email"]);
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+      $emailErr = "Invalid email format";
+    }
+  }
+    
+  if (empty($_POST["comment"])) {
+    $comment = "";
+  } else {
+    $comment = test_input($_POST["comment"]);
+  }
+
+function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
+?>
+
+<h2>GỞI Ý KIẾNh2>
+<p><span class="error">* required field</span></p>
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
+  Name: <input type="text" name="name" value="<?php echo $name;?>">
+  <span class="error">* <?php echo $nameErr;?></span>
+  <br><br>
+  E-mail: <input type="text" name="email" value="<?php echo $email;?>">
+  <span class="error">* <?php echo $emailErr;?></span>
+  <br><br>
+  Comment: <textarea name="comment" rows="5" cols="40"><?php echo $comment;?></textarea>
+  <br><br>
+  <input type="submit" name="submit" value="Submit">  
+</form>
+
+<?php
+echo "<h2>Your Input:</h2>";
+echo $name;
+echo "<br>";
+echo $email;
+echo "<br>";
+echo $comment;
+echo "<br>";
+?>
+
+</body>
+</html>
+--CÂU 3--
+<?php
+// khai báo các biến toàn cầu
+$heso_a = "";
+$heso_b = "";
+$heso_c = "";
+// đọc các hệ số từ FORM
+if (isset ( $_POST ['heso_a'] )) {
+    $heso_a = $_POST ['heso_a'];
+}
+if (isset ( $_POST ['heso_b'] )) {
+    $heso_b = $_POST ['heso_b'];
+}
+if (isset ( $_POST ['heso_c'] )) {
+    $heso_c = $_POST ['heso_c'];
+}
+/**
+ * giải phương trình bậc 2 trong PHP
+ *
+ * @author: viettuts.vn
+ * @param
+ *            he so bac 2 $a
+ * @param
+ *            he so bac 1 $b
+ * @param
+ *            he so tu do $c
+ */
+function giaiPTB2($a, $b, $c) {
+    // kiểm tra biến đầu vào
+    if ($a == "")
+        $a = 0;
+    if ($b == "")
+        $b = 0;
+    if ($c == "")
+        $c = 0;
+    // in phương trình ra màn hình
+    echo "Phương trình: " . $a . "x2 + " . $b . "x + " . $c . " = 0";
+    echo "<br>";
+    // kiểm tra các hệ số
+    if ($a == 0) {
+        if ($b == 0) {
+            echo ("Phương trình vô nghiệm!");
+        } else {
+            echo ("Phương trình có một nghiệm: " . "x = " . (- $c / $b));
+        }
+        return;
+    }
+    // tính delta
+    $delta = $b * $b - 4 * $a * $c;
+    $x1 = "";
+    $x2 = "";
+    // tính nghiệm
+    if ($delta > 0) {
+        $x1 = (- $b + sqrt ( $delta )) / (2 * $a);
+        $x2 = (- $b - sqrt ( $delta )) / (2 * $a);
+        echo ("Phương trình có 2 nghiệm là: " . "x1 = " . $x1 . " và x2 = " . $x2);
+    } else if ($delta == 0) {
+        $x1 = (- $b / (2 * $a));
+        echo ("Phương trình có nghiệm kép: x1 = x2 = " . $x1);
+    } else {
+        echo ("Phương trình vô nghiệm!");
+    }
+}
+?>
+<form action="#" method="post">
+ <table>
+  <tr>
+   <td>Hệ số bậc 2, a</td>
+   <td><input type="text" name="heso_a" value="<?=$heso_a?>" /></td>
+  </tr>
+  <tr>
+   <td>Hệ số bậc 1, b</td>
+   <td><input type="text" name="heso_b" value="<?=$heso_b?>" /></td>
+  </tr>
+  <tr>
+   <td>Hệ số tự do, c</td>
+   <td><input type="text" name="heso_c" value="<?=$heso_c?>" /></td>
+  </tr>
+  <tr>
+   <td></td>
+   <td><input type="submit" value="Kết quả"></td>
+  </tr>
+ </table>
+</form>
+<br>
+<?php
+// gọi hàm giải phương trình bậc 2
+// Sử dụng từ kháo $GLOBALS để đọc các biến toàn cầu và truyền vào hàm
+if (is_numeric ( $GLOBALS ['heso_a'] ) && is_numeric ( $GLOBALS ['heso_b'] ) 
+        && is_numeric ( $GLOBALS ['heso_c'] )) {
+    giaiPTB2 ( $GLOBALS ['heso_a'], $GLOBALS ['heso_b'], $GLOBALS ['heso_c'] );
+} else {
+    echo ("Giá trị input không hợp lệ!");
+}
+?>
+--CÂU 4--
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Bầu chọn cầu thủ xuất sắc</title>
+  </head>
+  <body>
+    <form action="" method="post">
+      <label for="players">Chọn cầu thủ:</label>
+      <select id="players" name="player">
+        <option value="1">Cầu thủ 1</option>
+        <option value="2">Cầu thủ 2</option>
+        <option value="3">Cầu thủ 3</option>
+        <option value="4">Cầu thủ 4</option>
+        <option value="5">Cầu thủ 5</option>
+        <option value="6">Cầu thủ 6</option>
+        <option value="7">Cầu thủ 7</option>
+        <option value="8">Cầu thủ 8</option>
+        <option value="9">Cầu thủ 9</option>
+        <option value="10">Cầu thủ 10</option>
+      </select><br><br>
+      <input type="submit" value="Bầu chọn">
+    </form>
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+      $player = (int) $_POST["player"];
+      // Lưu số phiếu bầu của cầu thủ này vào database
+      // ...
+      echo "Bạn đã bầu chọn cho cầu thủ $player.<br>";
+      // Lấy 3 cầu thủ có số phiếu bầu cao nhất từ database
+      // ...
+      echo "3 cầu thủ có số phiếu bầu cao nhất là:<br>";
+      echo "Cầu thủ X<br>";
+      echo "Cầu thủ Y<br>";
+      echo "Cầu thủ Z<br>";
+    }
+    ?>
+  </body>
+</html>
+--CÂU HỎI--
+-Phần mềm mã nguồn mở/phần mềm miễn phí có thật sự miễn phí?
+ Phần mềm nguồn mở (PMNM) là những phần mềm được cung cấp dưới cả dạng mã và nguồn, không chỉ là miễn phí về giá mua mà chủ yếu là miễn phí về bản quyền: người dùng có quyền sửa đổi, cải tiến, phát triển, nâng cấp theo một số nguyên tắc chung qui định trong giấy phép PMNM (ví dụ General Public Licence – GPL) mà không cần xin phép ai, điều mà họ không được phép làm đối với các phần mềm nguồn đóng (tức là phần mềm thương mại)..
+ Nhìn chung, thuật ngữ “Open source” được dùng để lôi cuốn các nhà kinh doanh, một điều thuận lợi chính là sự miễn phí và cho phép người dùng có quyền “sở hữu hệ thống”.
+ -Làm thể nào để phần mềm mã nguồn mang lại lợi nhuận?
++Tạo ra một cộng đồng: bạn sẽ có trong tay một cộng đồng lớn sử dụng sản phẩm của bạn và truyền bá thương hiệu của bạn tới mọi người.
++Định vị giá trị thương hiệu trong công chúng: phần lớn người dùng hiểu mã nguồn mở là có thể được tải xuống miễn phí. Điều này khuyến khích họ sử dụng và làm họ cảm thấy có thiện cảm hơn với thương hiệu.
++Nhận được phản hồi và sửa lỗi miễn phí: khi sử dụng mã nguồn mở, mọi người dùng có thể kiểm tra và sữa lỗi sau đó phản hồi lại tới doanh nghiệp. Giúp họ cải thiện nó ở những phiên bản trả phí.
++Giúp nuôi dưỡng sản phẩm: công khai mã nguồn mở đồng nghĩa với việc tính minh bạch được đảm bảo. Giúp người dùng tin tưởng vào sản phẩm và khiến sản phẩm được phát triển theo thời gian.
++Cải thiện chất lượng: khi có một cộng đồng lớn sẽ thôi thúc doanh nghiệp đặt vấn đề chất lượng sản phẩm lên hàng đầu.
+ 
